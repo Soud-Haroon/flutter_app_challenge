@@ -36,6 +36,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  # ==>Using GetX for managing State
+  get: ^4.6.5
+  # ==>Using Dio for REST-API's
+  dio: ^5.0.0
+  # ==>Using Permission Handler for Storage access
+  permission_handler: ^10.2.0
+  # ==>Using 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
