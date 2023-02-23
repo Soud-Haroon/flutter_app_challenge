@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_challenge/model/widgets/circle_progress.dart';
+import 'package:flutter_app_challenge/model/widgets/list_view_widget.dart';
+import 'package:flutter_app_challenge/view/screens/detail_screen.dart';
 import 'package:flutter_app_challenge/view_model/get_app_vm.dart';
 import 'package:get/get.dart';
 
@@ -15,27 +18,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        appBar: _myAppBar(),
-        body: Center(
-          child: _listBuilder(context),
-          // ListView.builder(
-          //   itemCount: _appController.getDataList.length,
-          //   itemBuilder: (contxt, index) {
-          //     return Padding(
-          //       padding: const EdgeInsets.all(10.0),
-          //       child: Text(
-          //         _appController.getDataList[index].name!,
-          //       ),
-          //     );
-          //   },
-          // ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: const Text("Get"),
-          onPressed: () => _appController.getData(),
-        ),
+    return Scaffold(
+      key: widget.key,
+      appBar: _myAppBar(),
+      body: Center(
+        child: _listBuilder(context),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Text("Get"),
+        onPressed: () => _appController.getData(),
       ),
     );
   }
@@ -48,17 +39,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _listBuilder(BuildContext contxt) {
     return Obx(
-      () => ListView.builder(
-        itemCount: _appController.getDataList.length,
-        itemBuilder: (contxt, index) {
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Text(
-              _appController.getDataList[index].name!,
-            ),
-          );
-        },
-      ),
+      () => _appController.isloading.value == false
+          ? _appController.getDataList.isNotEmpty
+              ? ListView.builder(
+                  itemCount: _appController.getDataList.length,
+                  itemBuilder: (contxt, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 10),
+                      child: InkWell(
+                        onTap: () => Get.to(() => OwnerDetailScreen(
+                              key: widget.key,
+                              appChalModel: _appController.getDataList[index],
+                            )),
+                        child: ListWidgetUser(
+                          key: widget.key,
+                          chalModel: _appController.getDataList[index],
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : const Text("No data available!")
+          : circleLoader(context),
     );
   }
 }

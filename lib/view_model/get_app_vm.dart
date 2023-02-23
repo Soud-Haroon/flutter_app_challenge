@@ -5,27 +5,26 @@ import 'package:get/get.dart';
 
 class FLutterAppController extends GetxController {
   final MainAppFetch _appFetch = MainAppFetch();
-  final List<FlutterAppChalModel> _flutterAppChalModel = [];
-  List<FlutterAppChalModel> _data = [];
-  RxList rxData = [].obs;
+  final RxList<FlutterAppChalModel> _myList = <FlutterAppChalModel>[].obs;
+  RxBool isloading = false.obs;
 
-  List<FlutterAppChalModel> get getDataList {
-    return _data.obs;
+  RxList<FlutterAppChalModel> get getDataList {
+    return _myList;
   }
 
   Future getData() async {
+    isloading.value = true;
     await _appFetch.fetchAPIData().then((value) {
       if (kDebugMode) {
         print("completed");
       }
       for (var element in value) {
-        _flutterAppChalModel.add(
+        _myList.add(
           FlutterAppChalModel.fromJson(element as Map<String, dynamic>),
         );
       }
-      _data = _flutterAppChalModel;
-      _data.obs;
-      rxData = _data as RxList;
+      isloading.value = false;
+      _myList.refresh();
     });
   }
 }
