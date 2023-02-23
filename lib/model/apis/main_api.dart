@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -23,8 +22,7 @@ class MainAppFetch extends BaseApi {
   dynamic returnResponse(Response response) {
     switch (response.statusCode) {
       case 200:
-        dynamic responseJson = jsonDecode(response.data);
-        return responseJson;
+        return response.data; //responseJson;
       case 400:
         throw "Invalid Request";
       case 401:
@@ -37,3 +35,6 @@ class MainAppFetch extends BaseApi {
     }
   }
 }
+
+// var a = jsonEncode(response.data);
+//   var responseJson = jsonDecode(a);

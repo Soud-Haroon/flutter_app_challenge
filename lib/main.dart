@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_challenge/model/service/app_binding.dart';
 import 'package:flutter_app_challenge/view/homepage.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
+      initialBinding: HomeBinding(),
       home: const MyHomePage(title: 'Flutter App Challeng'),
     );
   }
