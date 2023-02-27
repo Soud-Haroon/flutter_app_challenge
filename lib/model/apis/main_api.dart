@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -13,6 +14,8 @@ class MainAppFetch extends BaseApi {
       Response response = await _dio.get(baseUrl);
       jsonResponse = returnResponse(response);
       return jsonResponse;
+    } on TimeoutException {
+      return "Time out";
     } on SocketException {
       throw "No Internet Connection";
     }

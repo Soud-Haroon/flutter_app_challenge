@@ -40,14 +40,15 @@ dependencies:
   get: ^4.6.5
   # ==>Using Dio for Calling REST-API's
   dio: ^5.0.0
-  # ==>Using Permission Handler for Storage access
-  permission_handler: ^10.2.0
   # ==>Using cached_network_image for loading Network images
   cached_network_image: ^3.2.3
   # ==>Using material units
   intl: ^0.18.0
   # ==>Using for opening link
   url_launcher: ^6.1.10
+
+  hive: ^2.2.3
+
 
 dev_dependencies:
   flutter_test:

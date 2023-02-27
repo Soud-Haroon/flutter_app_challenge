@@ -7,10 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_challenge/model/app_model.dart';
 import 'package:flutter_app_challenge/model/constant/colors_list.dart';
 import 'package:flutter_app_challenge/model/widgets/bullets.dart';
+import 'package:flutter_app_challenge/model/widgets/date_formatter.dart';
+import 'package:flutter_app_challenge/view_model/get_app_vm.dart';
+import 'package:get/get.dart';
 
 class OwnerDetailScreen extends StatelessWidget {
   OwnerDetailScreen({super.key, required this.appChalModel});
   FlutterAppChalModel appChalModel = FlutterAppChalModel();
+  final FLutterAppController _getController = Get.put(FLutterAppController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,38 +38,78 @@ class OwnerDetailScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 10, top: 10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                clipBehavior: Clip.antiAlias,
-                child: CachedNetworkImage(
-                  height: 80,
-                  width: 80,
-                  fit: BoxFit.cover,
-                  imageUrl: appChalModel.owner!.avatarUrl!,
-                ),
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 20, bottom: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    clipBehavior: Clip.antiAlias,
+                    child: CachedNetworkImage(
+                      height: 80,
+                      width: 80,
+                      fit: BoxFit.cover,
+                      imageUrl: appChalModel.owner!.avatarUrl!,
+                    ),
+                  ),
+                  //===============================//
+                  Obx(() =>
+                     IconButton(
+                        onPressed: () {
+                          _getController.localList.add(appChalModel);
+                          _getController.writeData(_getController.localList);
+                          const GetSnackBar(message: "Favourite added!");
+                        },
+                        icon: Icon(
+                          _getController.localList.contains(appChalModel)
+                              ? Icons.star
+                              : Icons.star_border_outlined,
+                          color: Colors.amber,
+                        )),
+                  )
+                ],
               ),
             ),
             //===================================//
-            _rowBulletTextView(
-              context: context,
-              title: "Owner Info:",
-            ),
-            _rowText(context, "Owner ID:", appChalModel.owner!.id.toString()),
-            _rowText(
-                context, "Node ID:", appChalModel.owner!.nodeId.toString()),
-            _linkText(
-                context: context,
-                text: "Avater",
-                url: appChalModel.owner!.avatarUrl!),
-            _linkText(
-                context: context,
-                text: "Repo Url",
-                url: appChalModel.owner!.avatarUrl!),
-            //===================================//
+            _detialsColumn(context),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _detialsColumn(BuildContext context) {
+    return Column(
+      children: [
+        _rowBulletTextView(
+          context: context,
+          title: "Owner Info:",
+        ),
+        _rowText(context, "Owner ID:", appChalModel.owner!.id.toString()),
+        _rowText(context, "Node ID:", appChalModel.owner!.nodeId.toString()),
+        _linkText(
+            context: context,
+            text: "Avater",
+            url: appChalModel.owner!.avatarUrl!),
+        _linkText(
+            context: context,
+            text: "Repo Url",
+            url: appChalModel.owner!.avatarUrl!),
+        //===================================//
+        _rowBulletTextView(context: context, title: "Repo name:"),
+        _rowText(context, "name", appChalModel.name!),
+        _linkText(context: context, text: "link", url: appChalModel.homepage!),
+        //===================================//
+        _rowBulletTextView(context: context, title: "Descriptions:"),
+        _rowText(context, "Des:", appChalModel.description!),
+        //===================================//
+        _rowBulletTextView(context: context, title: "Created at:"),
+        _rowText(context, "Date:", convertToDMY(appChalModel.createdAt!)),
+        //===================================//
+        _rowBulletTextView(context: context, title: "Repo URL:"),
+        _linkText(context: context, text: "url", url: appChalModel.homepage!),
+      ],
     );
   }
 
@@ -103,6 +147,7 @@ class OwnerDetailScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.15),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 7),
@@ -111,14 +156,12 @@ class OwnerDetailScreen extends StatelessWidget {
               style: const TextStyle(fontSize: 14),
             ),
           ),
-          Container(
-            width: 120,
-            padding: const EdgeInsets.only(right: 5),
-            child: Text(
-              text,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              softWrap: false,
+          Flexible(
+            child: Container(
+              padding: const EdgeInsets.only(right: 5),
+              child: Text(
+                text,
+              ),
             ),
           ),
         ],
