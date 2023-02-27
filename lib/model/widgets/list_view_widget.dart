@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_challenge/model/app_model.dart';
 import 'package:flutter_app_challenge/model/widgets/date_formatter.dart';
 
+
+//==============Custom Widget for showing data in ListView=================//
 class ListWidgetUser extends StatelessWidget {
   ListWidgetUser({super.key, required this.chalModel});
   FlutterAppChalModel chalModel = FlutterAppChalModel();

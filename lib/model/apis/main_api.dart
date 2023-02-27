@@ -8,7 +8,7 @@ class MainAppFetch extends BaseApi {
   final Dio _dio = Dio();
 
   @override
-  Future fetchAPIData() async {
+  Future fetchData() async {
     dynamic jsonResponse;
     try {
       Response response = await _dio.get(baseUrl);

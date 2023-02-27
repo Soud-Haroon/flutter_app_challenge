@@ -5,6 +5,7 @@ import 'package:flutter_app_challenge/view/screens/favourit_view.dart';
 import 'package:flutter_app_challenge/view_model/get_app_vm.dart';
 import 'package:get/get.dart';
 
+//===============Main Page=====================//
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
   final String title;
@@ -61,14 +62,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //======custom list view builder widget=======//
   Widget _listBuilder(BuildContext contxt) {
-    return Obx(() =>
-        ListView.builder(
+    return Obx(() => ListView.builder(
           itemCount: _appController.getDataList.length,
           itemBuilder: (contxt, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: InkWell(
-                onTap: () => Get.to(() => OwnerDetailScreen(
+                onTap: () => Get.to(() => DetailScreen(
                       key: widget.key,
                       appChalModel: _appController.getDataList[index],
                     )),

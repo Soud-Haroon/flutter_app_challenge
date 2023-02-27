@@ -1,5 +1,8 @@
+// Describing structure of API class and functions
 abstract class BaseApi {
+  //main URL
   final String baseUrl = "https://api.github.com/orgs/square/repos";
 
-  Future<dynamic> fetchAPIData();
+  //GET DATA FUNC
+  Future<dynamic> fetchData();
 }

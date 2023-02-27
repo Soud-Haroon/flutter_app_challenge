@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_app_challenge/model/apis/main_api.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -8,8 +7,8 @@ void main() {
     //step 1
     MainAppFetch mainAppFetch = MainAppFetch();
     //step 2
-    List<dynamic> list = await mainAppFetch.fetchAPIData();
+    List<dynamic> list = await mainAppFetch.fetchData();
     //step 3
-    expect(list[0]["id"],  274562);
+    expect(list[0]["id"], 274562);
   });
 }

@@ -4,8 +4,9 @@ import 'package:flutter_app_challenge/view/screens/detail_screen.dart';
 import 'package:flutter_app_challenge/view_model/get_app_vm.dart';
 import 'package:get/get.dart';
 
+//================Favourite class view=================//
 class FavouriteView extends StatefulWidget {
-  FavouriteView({super.key});
+  const FavouriteView({super.key});
 
   @override
   State<FavouriteView> createState() => _FavouriteViewState();
@@ -25,17 +26,17 @@ class _FavouriteViewState extends State<FavouriteView> {
     return Scaffold(
       appBar: AppBar(title: const Text("Favourite's")),
       body: Center(
-        child: _appController.localList.isNotEmpty
+        child: _appController.getLocalList.isNotEmpty
             ? ListView.builder(
-                itemCount: _appController.localList.length,
+                itemCount: _appController.getLocalList.length,
                 itemBuilder: (contxt, index) {
                   return Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                     child: InkWell(
-                      onTap: () => Get.to(() => OwnerDetailScreen(
+                      onTap: () => Get.to(() => DetailScreen(
                             key: widget.key,
-                            appChalModel: _appController.localList[index],
+                            appChalModel: _appController.getLocalList[index],
                           )),
                       child: ListWidgetUser(
                         key: widget.key,

@@ -6,6 +6,9 @@
 
 import 'dart:convert';
 
+
+//===================Model of json=======================//
+
 List<FlutterAppChalModel> flutterAppChalModelFromJson(String str) =>
     List<FlutterAppChalModel>.from(
         json.decode(str).map((x) => FlutterAppChalModel.fromJson(x)));

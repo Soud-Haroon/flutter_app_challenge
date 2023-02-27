@@ -11,8 +11,9 @@ import 'package:flutter_app_challenge/model/widgets/date_formatter.dart';
 import 'package:flutter_app_challenge/view_model/get_app_vm.dart';
 import 'package:get/get.dart';
 
-class OwnerDetailScreen extends StatelessWidget {
-  OwnerDetailScreen({super.key, required this.appChalModel});
+//============class to show Details of data==================//
+class DetailScreen extends StatelessWidget {
+  DetailScreen({super.key, required this.appChalModel});
   FlutterAppChalModel appChalModel = FlutterAppChalModel();
   final FLutterAppController _getController = Get.put(FLutterAppController());
 
@@ -24,7 +25,6 @@ class OwnerDetailScreen extends StatelessWidget {
         title: Text(appChalModel.name!),
       ),
       body: Container(
-        // height: MediaQuery.of(context).size.height,
         width: double.infinity,
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
@@ -37,6 +37,7 @@ class OwnerDetailScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            //==================First View=====================//
             Padding(
               padding: const EdgeInsets.only(
                   left: 20, right: 20, top: 20, bottom: 40),
@@ -57,12 +58,16 @@ class OwnerDetailScreen extends StatelessWidget {
                   Obx(
                     () => IconButton(
                         onPressed: () {
-                          _getController.localList.add(appChalModel);
-                          _getController.writeData(_getController.localList);
-                          const GetSnackBar(message: "Favourite added!");
+                          _getController.getLocalList.add(appChalModel);
+                          _getController.writeData(_getController.getLocalList);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Favourite added!"),
+                            ),
+                          );
                         },
                         icon: Icon(
-                          _getController.localList.contains(appChalModel)
+                          _getController.getLocalList.contains(appChalModel)
                               ? Icons.star
                               : Icons.star_border_outlined,
                           color: Colors.amber,
@@ -71,7 +76,7 @@ class OwnerDetailScreen extends StatelessWidget {
                 ],
               ),
             ),
-            //===================================//
+            //==================Second View=====================//
             _detialsColumn(context),
           ],
         ),
@@ -79,6 +84,7 @@ class OwnerDetailScreen extends StatelessWidget {
     );
   }
 
+  //===============Second Main Detail View Widget==============//
   Widget _detialsColumn(BuildContext context) {
     return Column(
       children: [
@@ -122,12 +128,14 @@ class OwnerDetailScreen extends StatelessWidget {
     );
   }
 
+  //==========Func to generate random numbers for bullter colors
   int _randomIntForColor() {
     Random random = Random();
     int randomNumber = random.nextInt(6);
     return randomNumber;
   }
 
+  //==========below are some custom widget align to show details==========//
   Padding _rowBulletTextView({
     required BuildContext context,
     required String title,

@@ -8,41 +8,22 @@ class FLutterAppController extends GetxController {
   final MainAppFetch _appFetch = MainAppFetch(); //API Service class
   final RxList<FlutterAppChalModel> _myList =
       <FlutterAppChalModel>[].obs; // data list
-  RxList<FlutterAppChalModel> localList =
+  RxList<FlutterAppChalModel> _localList =
       <FlutterAppChalModel>[].obs; // local data list
   RxBool isloading = false.obs; //checking api status
 
   RxList<FlutterAppChalModel> get getDataList {
     return _myList;
   }
-
-  Future<void> writeData(RxList<FlutterAppChalModel> list) async {
-    try {
-      final pref = await SharedPreferences.getInstance();
-      pref.setStringList("keyData", list as List<String>);
-    } catch (error) {
-      if (kDebugMode) {
-        print(error);
-      }
-    }
-  }
-
-  Future readData() async {
-    try {
-      final pref = await SharedPreferences.getInstance();
-      localList = pref.getStringList("keyData") as RxList<FlutterAppChalModel>;
-    } catch (error) {
-      if (kDebugMode) {
-        print(error);
-      }
-    }
+  RxList<FlutterAppChalModel> get getLocalList {
+    return _localList;
   }
 
   //This function is used to fetch data from API
   Future getData() async {
     isloading.value = true;
     try {
-      await _appFetch.fetchAPIData().onError((error, stackTrace) {
+      await _appFetch.fetchData().onError((error, stackTrace) {
         isloading.value = false;
         _myList.clear();
       }).then((value) {
@@ -62,6 +43,28 @@ class FLutterAppController extends GetxController {
         print("debug error: $error");
       }
       return _myList.obs;
+    }
+  }
+
+  Future<void> writeData(RxList<FlutterAppChalModel> list) async {
+    try {
+      final pref = await SharedPreferences.getInstance();
+      pref.setStringList("keyData", list as List<String>);
+    } catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+    }
+  }
+
+  Future readData() async {
+    try {
+      final pref = await SharedPreferences.getInstance();
+      _localList = pref.getStringList("keyData") as RxList<FlutterAppChalModel>;
+    } catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
     }
   }
 }

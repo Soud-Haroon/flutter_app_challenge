@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//class to show bullets=================//
 class MyBullet extends StatelessWidget {
   const MyBullet({super.key, required this.color});
   final Color color;
