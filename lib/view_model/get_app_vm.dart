@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_app_challenge/model/apis/main_api.dart';
 import 'package:flutter_app_challenge/model/app_model.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FLutterAppController extends GetxController {
   final MainAppFetch _appFetch = MainAppFetch(); //API Service class
@@ -15,9 +16,11 @@ class FLutterAppController extends GetxController {
     return _myList;
   }
 
-  void writeData(RxList<FlutterAppChalModel> list) {
-    print("1111111111111111 write");
-    try {} catch (error) {
+  Future<void> writeData(RxList<FlutterAppChalModel> list) async {
+    try {
+      final pref = await SharedPreferences.getInstance();
+      pref.setStringList("keyData", list as List<String>);
+    } catch (error) {
       if (kDebugMode) {
         print(error);
       }
@@ -26,13 +29,12 @@ class FLutterAppController extends GetxController {
 
   Future readData() async {
     try {
-      print("222222222222222222 read");
-      localList.obs;
+      final pref = await SharedPreferences.getInstance();
+      localList = pref.getStringList("keyData") as RxList<FlutterAppChalModel>;
     } catch (error) {
       if (kDebugMode) {
         print(error);
       }
-      return;
     }
   }
 
@@ -42,6 +44,7 @@ class FLutterAppController extends GetxController {
     try {
       await _appFetch.fetchAPIData().onError((error, stackTrace) {
         isloading.value = false;
+        _myList.clear();
       }).then((value) {
         if (kDebugMode) {
           print("Request completed");
@@ -56,8 +59,9 @@ class FLutterAppController extends GetxController {
       });
     } catch (error) {
       if (kDebugMode) {
-        print(error);
+        print("debug error: $error");
       }
+      return _myList.obs;
     }
   }
 }

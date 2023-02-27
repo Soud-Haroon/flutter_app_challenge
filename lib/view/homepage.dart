@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_challenge/model/widgets/circle_progress.dart';
 import 'package:flutter_app_challenge/model/widgets/list_view_widget.dart';
 import 'package:flutter_app_challenge/view/screens/detail_screen.dart';
 import 'package:flutter_app_challenge/view/screens/favourit_view.dart';
@@ -37,10 +36,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //======auto load data func=======//
   Future _loadData() async {
     _appController.getData();
   }
 
+  //======custom app bar=======//
   AppBar _myAppBar() {
     return AppBar(
       title: Text(widget.title),
@@ -58,29 +59,26 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  //======custom list view builder widget=======//
   Widget _listBuilder(BuildContext contxt) {
-    return Obx(() => _appController.isloading.value == false
-        ? _appController.getDataList.isNotEmpty
-            ? ListView.builder(
-                itemCount: _appController.getDataList.length,
-                itemBuilder: (contxt, index) {
-                  return Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: InkWell(
-                      onTap: () => Get.to(() => OwnerDetailScreen(
-                            key: widget.key,
-                            appChalModel: _appController.getDataList[index],
-                          )),
-                      child: ListWidgetUser(
-                        key: widget.key,
-                        chalModel: _appController.getDataList[index],
-                      ),
-                    ),
-                  );
-                },
-              )
-            : const Text("No data available!")
-        : circleLoader(context));
+    return Obx(() =>
+        ListView.builder(
+          itemCount: _appController.getDataList.length,
+          itemBuilder: (contxt, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: InkWell(
+                onTap: () => Get.to(() => OwnerDetailScreen(
+                      key: widget.key,
+                      appChalModel: _appController.getDataList[index],
+                    )),
+                child: ListWidgetUser(
+                  key: widget.key,
+                  chalModel: _appController.getDataList[index],
+                ),
+              ),
+            );
+          },
+        ));
   }
 }

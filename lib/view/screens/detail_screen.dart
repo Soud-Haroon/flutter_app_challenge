@@ -54,8 +54,8 @@ class OwnerDetailScreen extends StatelessWidget {
                     ),
                   ),
                   //===============================//
-                  Obx(() =>
-                     IconButton(
+                  Obx(
+                    () => IconButton(
                         onPressed: () {
                           _getController.localList.add(appChalModel);
                           _getController.writeData(_getController.localList);
@@ -98,17 +98,26 @@ class OwnerDetailScreen extends StatelessWidget {
             url: appChalModel.owner!.avatarUrl!),
         //===================================//
         _rowBulletTextView(context: context, title: "Repo name:"),
-        _rowText(context, "name", appChalModel.name!),
-        _linkText(context: context, text: "link", url: appChalModel.homepage!),
+        _rowText(context, "name", appChalModel.name ?? ""),
+        _linkText(
+            context: context, text: "link", url: appChalModel.homepage ?? ""),
         //===================================//
         _rowBulletTextView(context: context, title: "Descriptions:"),
-        _rowText(context, "Des:", appChalModel.description!),
+        _rowText(context, "Des:", appChalModel.description ?? ""),
         //===================================//
         _rowBulletTextView(context: context, title: "Created at:"),
-        _rowText(context, "Date:", convertToDMY(appChalModel.createdAt!)),
+        _rowText(
+            context,
+            "Date:",
+            appChalModel.createdAt != null
+                ? convertToDMY(appChalModel.createdAt!)
+                : ""),
         //===================================//
         _rowBulletTextView(context: context, title: "Repo URL:"),
-        _linkText(context: context, text: "url", url: appChalModel.homepage!),
+        _linkText(
+            context: context,
+            text: appChalModel.homepage != null ? "url" : "No Link",
+            url: appChalModel.homepage ?? ""),
       ],
     );
   }
@@ -187,7 +196,7 @@ class OwnerDetailScreen extends StatelessWidget {
           ),
           //===//
           TextButton(
-            onPressed: () {},
+            onPressed: () async {},
             style: TextButton.styleFrom(
               minimumSize: Size.zero,
               padding: EdgeInsets.zero,
